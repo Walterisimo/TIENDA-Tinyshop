@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+
+body{
+  font-family: 'Roboto';
+  background-color: #f8f8f8;
+}
+
+.slick-dots{
+  bottom: 10px;
+}
+.slick-dots{
+  li{
+    width: 15px;
+    height: 15px;
+    margin: 0 0;
+    button{
+      width: 15px;
+      height: 15px;
+      padding: 0px;
+      &::before{
+        width: 15px;
+        height: 15px;
+        font-size: 8px;
+        line-height: 15px;
+      }
+    }
+    &.slick-active{
+      button{
+        &::before{
+          font-size: 10px;
+          color: #783dff;
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
+.slider-category{
+  .slick-dots{
+    bottom: -25px;
+  }
+}
