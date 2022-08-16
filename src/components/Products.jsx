@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
-const Products = ({ id }) => {
+const Products = ({ id, handleClick }) => {
 
   const [ products, setProducts ] = useState([])
   
@@ -37,7 +37,12 @@ const Products = ({ id }) => {
                 <h3 className='products__items--title font-bold text-md mb-1 leading-5'>{product.name}</h3>
                 <div className='products__items--description font-light text-sm leading-4 mb-2 text-slate-500' dangerouslySetInnerHTML={{ __html: product.description }}></div>
                 <span className='products__items--price font-semibold text-indigo-600 mt-auto'>$ {product.price}</span>
-                <span className='rounded-full bg-indigo-600 w-[35px] h-[35px] absolute right-3 bottom-2 items-center justify-center flex text-white font-normal text-2xl'>+</span>
+                <span
+                  className='rounded-full bg-indigo-600 w-[35px] h-[35px] absolute right-3 bottom-2 items-center justify-center flex text-white font-normal text-2xl'
+                  onClick={() => handleClick(product)}
+                >
+                  +
+                </span>
               </div>
             </div>
           ))
