@@ -3,50 +3,61 @@ import Carousel from '../components/Carousel'
 import Search from '../components/Search'
 import { useDispatch, useSelector } from 'react-redux'
 import { getProductsAction } from '../store/products'
+import Products from '../components/Products'
 
 const Home = () => {
 
   const dispatch = useDispatch()
-  const products = useSelector(store => store.products.all)
+  const categories = useSelector(store => store.products.categories)
+  const loading = useSelector(store => store.products.loading)
 
   useEffect(() => {
     dispatch(getProductsAction())
   }, [dispatch])
 
-  console.log(`Products: ${products}`)
+  const handleScroll = (element) => {
+    let topElem = document.getElementById(element);
+    let top = topElem.offsetTop;
+    window.scrollTo({ top: top - 75, behavior: 'smooth' });
+  }
 
   return (
     <>
       <Search />
       <Carousel type={'main'} />
       <section className='slider-category rounded-md bg-white m-5 pb-11'>
-        <Carousel type={'categories'} />
+        {
+          loading ? (
+            <div className='flex items-center justify-center min-h-[120px]'>
+              <svg className='animate-spin -ml-1 mr-3 h-5 w-5 text-white' xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className='opacity-25' cx="12" cy="12" r="10" stroke="#783DFF" strokeWidth="4"></circle>
+                <path className='opacity-75' fill="#783DFF" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+            </div>
+          ) : (
+            <Carousel type={'categories'} array={categories} action={handleScroll} />
+          )
+        }
       </section>
-      <section className='categories mt-16' id='snack'>
-        <h1 className='font-bold text-2xl pl-3'>Snacks</h1>
-        
-        <div className='products flex flex-wrap'>
-          {
-              products.map(product => (
-                <div className='products__items m-2 mx-3 flex rounded bg-white overflow-hidden w-full' key={product.id}>
-                  <div className='w-[35%]'>
-                    <img
-                      src={product.images[0].src}
-                      className='products__items--image object-cover object-center block h-full'
-                      alt='Papas fritas'
-                    />
-                  </div>
-                  <div className='px-2 py-3 relative'>
-                    <h3 className='products__items--title font-bold text-md mb-1'>{product.name}</h3>
-                    <div className='products__items--description font-light text-sm leading-5 mb-2 text-slate-500' dangerouslySetInnerHTML={{__html: product.description }}></div>
-                    <span className='products__items--price font-semibold text-indigo-600'>$ {product.price}</span>
-                    <span className='rounded-full bg-indigo-600 w-[35px] h-[35px] absolute right-3 bottom-2 items-center justify-center flex text-white font-normal text-2xl'>+</span>
-                  </div>
+        {
+          loading ? (
+            <div className='flex items-center justify-center min-h-[120px]'>
+              <svg className='animate-spin -ml-1 mr-3 h-5 w-5 text-white' xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className='opacity-25' cx="12" cy="12" r="10" stroke="#783DFF" strokeWidth="4"></circle>
+                <path className='opacity-75' fill="#783DFF" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+            </div>
+          ) : (
+            categories.map(cat => (
+              <section className='categories mt-20' id={cat.slug} key={cat.id}>
+                <h1 className='font-bold text-2xl pl-3'>{cat.name}</h1>
+                <div className='products flex flex-wrap'>
+                  <Products id={cat.id} />
                 </div>
-              ))
-          }
-        </div>
-      </section>
+              </section>
+            ))
+          )
+        }
     </>
   )
 }

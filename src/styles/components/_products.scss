@@ -1,0 +1,11 @@
+.products{
+  &__items{
+    &--image{
+      width: 100px;
+      height: 100px;
+    }
+    &--content{
+      width: calc(100% - 100px);
+    }
+  }
+}

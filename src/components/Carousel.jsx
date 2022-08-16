@@ -4,7 +4,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
 import Button from './Button';
 
-const Carousel = ( { type } ) => {
+const Carousel = ( { type, array, action } ) => {
 
   const toScroll = element => {
     console.log(element)
@@ -51,7 +51,7 @@ const Carousel = ( { type } ) => {
         </div>
       </Slider>
     )
-  } else {
+  } else if ( array ){
     const settings = {
       dots: true,
       arrows: false,
@@ -62,41 +62,20 @@ const Carousel = ( { type } ) => {
       autoplay: true,
       autoplaySpeed: 4000
     }
-
     return (
       <Slider {...settings}>
-        <div className='mt-3 text-center'>
-          <img src='https://demo.tinyshop.com.ar/wp-content/uploads/2022/06/burgers-03.png' className='w-[75px] md:w-[90px] mx-auto mb-2' alt='Hamburguesas' />
-          <h3 className='text-md font-bold mb-2'>Hamburguesas</h3>
-        </div>
-        <div className='mt-3 text-center'>
-          <img src='https://demo.tinyshop.com.ar/wp-content/uploads/2022/06/snaks-09.png' className='w-[75px] md:w-[90px] mx-auto mb-2' alt='Hamburguesas' />
-          <h3 className='text-md font-bold mb-2'>Snacks</h3>
-        </div>
-        <div className='mt-3 text-center'>
-          <img src='https://demo.tinyshop.com.ar/wp-content/uploads/2022/06/pizza-04.png' className='w-[75px] md:w-[90px] mx-auto mb-2' alt='Hamburguesas' />
-          <h3 className='text-md font-bold mb-2'>Pizzas</h3>
-        </div>
-        <div className='mt-3 text-center'>
-          <img src='https://demo.tinyshop.com.ar/wp-content/uploads/2022/06/hotdog-06.png' className='w-[75px] md:w-[90px] mx-auto mb-2' alt='Hamburguesas' />
-          <h3 className='text-md font-bold mb-2'>Panchos</h3>
-        </div>
-        <div className='mt-3 text-center'>
-          <img src='https://demo.tinyshop.com.ar/wp-content/uploads/2022/06/empanadas-07.png' className='w-[75px] md:w-[90px] mx-auto mb-2' alt='Hamburguesas' />
-          <h3 className='text-md font-bold mb-2'>Empanadas</h3>
-        </div>
-        <div className='mt-3 text-center'>
-          <img src='https://demo.tinyshop.com.ar/wp-content/uploads/2022/06/pasta-11.png' className='w-[75px] md:w-[90px] mx-auto mb-2' alt='Hamburguesas' />
-          <h3 className='text-md font-bold mb-2'>Pastas</h3>
-        </div>
-        <div className='mt-3 text-center'>
-          <img src='https://demo.tinyshop.com.ar/wp-content/uploads/2022/06/drinks-08.png' className='w-[75px] md:w-[90px] mx-auto mb-2' alt='Hamburguesas' />
-          <h3 className='text-md font-bold mb-2'>Bebidas</h3>
-        </div>
-        <div className='mt-3 text-center'>
-          <img src='https://demo.tinyshop.com.ar/wp-content/uploads/2022/06/postres-10.png' className='w-[75px] md:w-[90px] mx-auto mb-2' alt='Hamburguesas' />
-          <h3 className='text-md font-bold mb-2'>Postres</h3>
-        </div>
+        {
+          array.map(category => (
+            <div className='mt-3 text-center cursor-pointer' key={category.id} onClick={() => action(category.slug)}>
+              { category.image &&
+                (
+                  <img src={category.image.src} className='w-[75px] md:w-[90px] mx-auto mb-2' alt={category.name} />
+                )
+              }
+              <h3 className='text-md font-bold mb-2'>{category.name}</h3>
+            </div>
+          ))
+        }
       </Slider>
     )
   }
