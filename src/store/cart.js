@@ -17,7 +17,7 @@ export default function cartReducer (state = initData, action ) {
     case LOADING_CART:
       return {...state, loadingCart: true}
     case ADD_ITEM_CART:
-      return {...state, loadingCart: false, cart: [...state.cart, action.payload.item], total: action.payload.total}
+      return {...state, loadingCart: false, cart: action.payload.cart, total: action.payload.total}
     case UPDATE_ITEM_CART:
       return {...state, loadingCart: false, cart: action.payload.cart, total: action.payload.total}
     default:
@@ -38,32 +38,21 @@ export const addToCart = ( item, quantity ) => async ( dispatch, getState ) => {
     photo: item.images[0].src,
     sale_price: item.sale_price,
     quantity: quantity,
-    subtotal: item.price * quantity
+    subtotal: item.price * quantity,
+    order: getState().cart.cart.length + 1
   }
 
   const total = getState().cart.total + product.subtotal
+  let products = getState().cart.cart
+  products = [...products, product]
+  const shorted = [...products].sort((a, b) => {
+    return b.order - a.order;
+  })
 
   dispatch({
     type: ADD_ITEM_CART,
     payload: {
-      item: product,
-      total: total
-    }
-  })
-}
-
-export const deleteItem = ( id, subtotal ) => async ( dispatch, getState ) => {
-  dispatch({
-    type: LOADING_CART
-  })
-
-  const products = getState().cart.cart.filter(item => item.id !== id)
-  const total = getState().cart.total - subtotal
-
-  dispatch({
-    type: UPDATE_ITEM_CART,
-    payload: {
-      cart: products,
+      cart: shorted,
       total: total
     }
   })
@@ -74,10 +63,12 @@ export const updateItem = ( item, subtotal, quantity ) => async ( dispatch, getS
     type: LOADING_CART
   })
 
+  console.log(subtotal)
   const products = getState().cart.cart.filter(product => product.id !== item.id)
   let product = {}
   let carrito = []
   let total = getState().cart.total - subtotal
+  // console.log(total)
 
   if (quantity) {
     product = {
@@ -87,7 +78,8 @@ export const updateItem = ( item, subtotal, quantity ) => async ( dispatch, getS
       photo: item.photo,
       sale_price: item.sale_price,
       quantity: quantity,
-      subtotal: item.price * quantity
+      subtotal: item.price * quantity,
+      order: item.order
     }
     carrito = [...products, product]
     total = total + product.subtotal
@@ -95,11 +87,14 @@ export const updateItem = ( item, subtotal, quantity ) => async ( dispatch, getS
     carrito = products
   }
 
+  const shorted = [...carrito].sort((a, b) => {
+    return b.order - a.order;
+  })
 
   dispatch({
     type: UPDATE_ITEM_CART,
     payload: {
-      cart: carrito,
+      cart: shorted,
       total: total
     }
   })

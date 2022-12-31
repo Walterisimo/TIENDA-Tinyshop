@@ -2,24 +2,25 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { updateItem } from '../store/cart'
 
-const Item = ( { product } ) => {
+const Item = ( { product, action } ) => {
 
   const [ quantity, setQuantity ] = useState(product.quantity)
-  const [ amount ] = useState(product.subtotal)
   const [ openModals, setOpenModals ] = useState(false)
   const dispatch = useDispatch()
   
   const lessQuantity = () => {
     if (quantity > 1) {
       setQuantity(quantity - 1)
+      action(product, product.subtotal, quantity - 1)
     }
   }
   const plusQuantity = () => {
     setQuantity(quantity + 1)
+    action(product, product.subtotal, quantity + 1)
   }
   
   const deleteItem = ( ) => {
-    dispatch(updateItem(product, amount))
+    dispatch(updateItem(product, product.subtotal))
     setOpenModals(false)
   }
 
@@ -42,21 +43,13 @@ const Item = ( { product } ) => {
             <div>
               <ul className='pt-2 flex justify-between items-center'>
                 <li>
-                  <span className='cart__items--price font-black mt-auto'>$ { amount.toLocaleString('es-AR') }</span>
+                  <span className='cart__items--price font-black mt-auto'>$ { product.subtotal.toLocaleString('es-AR') }</span>
                 </li>
                 <li className='quantity ml-auto mr-2'>
                   <span className='cursor-pointer border border-solid border-slate-300 px-2' onClick={lessQuantity}>-</span>
                   <span className='px-3 border border-solid border-slate-300'>{quantity}</span>
                   <span className='cursor-pointer border border-solid border-slate-300 px-2' onClick={plusQuantity}>+</span>
                 </li>
-                {/* <AddToCart
-                  product={product}
-                  quantity={quantity}
-                  delivery={delivery}
-                  btnChecked={'Actualizado'}
-                  btnUnChecked={'Actualizar'}
-                  page={'cart'}
-                /> */}
               </ul>
             </div>
           </div>
