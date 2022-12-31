@@ -31,7 +31,7 @@ export default function productsReducer (state = initData, action ) {
 }
 
 // Actions
-export const getProductsAction = ( ) => async ( dispatch, getState ) => {
+export const getProductsAction = ( ) => async ( dispatch ) => {
   dispatch({
     type: LOADING_CATEGORIES
   })
@@ -43,6 +43,7 @@ export const getProductsAction = ( ) => async ( dispatch, getState ) => {
   }
   try {
     const categories = await axios.get('https://demo.tinyshop.com.ar/wp-json/wc/v3/products/categories?per_page=100', headers )
+
     if (categories) {
 
       const shortCategories = [...categories.data].sort((a, b) => a.menu_order - b.menu_order)

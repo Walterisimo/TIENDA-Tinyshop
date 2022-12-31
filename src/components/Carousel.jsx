@@ -59,7 +59,7 @@ const Carousel = ( { type, array, action } ) => {
       speed: 500,
       slidesToShow: 3,
       slidesToScroll: 3,
-      autoplay: true,
+      autoplay: false,
       autoplaySpeed: 4000
     }
     return (

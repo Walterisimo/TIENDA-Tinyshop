@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import Carousel from '../components/Carousel'
-import Search from '../components/Search'
 import { useDispatch, useSelector } from 'react-redux'
 import { getProductsAction } from '../store/products'
 import Products from '../components/Products'
@@ -35,7 +34,7 @@ const Home = () => {
 
   return (
     <>
-      <Search />
+      <div className='mt-[46px]'></div>
       <Carousel type={'main'} />
       <section className='slider-category rounded-md bg-white m-5 pb-11'>
         {

@@ -1,11 +1,13 @@
 import { legacy_createStore as createStore, combineReducers, compose, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk'
+import cartReducer from './cart';
 
 // import userReducer, { getUserAction } from './auth'
 import productsReducer from './products'
 
 const rootReducer = combineReducers({
-  products: productsReducer
+  products: productsReducer,
+  cart: cartReducer
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose

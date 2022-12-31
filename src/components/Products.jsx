@@ -18,7 +18,7 @@ const Products = ({ id, handleClick }) => {
     }
 
     getProducts()
-  }, [products, id])
+  }, [setProducts, id])
 
   return (
     <>
@@ -38,7 +38,7 @@ const Products = ({ id, handleClick }) => {
                 <div className='products__items--description font-light text-sm leading-4 mb-2 text-slate-500' dangerouslySetInnerHTML={{ __html: product.description }}></div>
                 <span className='products__items--price font-semibold text-indigo-600 mt-auto'>$ {product.price}</span>
                 <span
-                  className='rounded-full bg-indigo-600 w-[35px] h-[35px] absolute right-3 bottom-2 items-center justify-center flex text-white font-normal text-2xl'
+                  className='rounded-full bg-indigo-600 w-[35px] h-[35px] absolute right-3 bottom-2 items-center justify-center flex text-white font-normal text-2xl cursor-pointer hover:bg-indigo-800'
                   onClick={() => handleClick(product)}
                 >
                   +

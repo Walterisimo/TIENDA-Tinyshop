@@ -1,6 +1,7 @@
 import React from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
+import Cart from '../pages/Cart'
 import Home from '../pages/Home'
 
 const Router = () => {
@@ -9,7 +10,8 @@ const Router = () => {
       <Navbar />
       <Routes>
         <Route path='/' element={ <Home /> } />
-        <Route path='*' element={ <Navigate to='/login' /> } />
+        <Route path='/pedido' element={ <Cart /> } />
+        <Route path='*' element={ <Navigate to='/' /> } />
       </Routes>
     </BrowserRouter>
   )
