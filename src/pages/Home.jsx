@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getProductsAction } from '../store/products'
 import Products from '../components/Products'
 import QuickView from '../components/QuickView'
+import FixedButton from '../components/FixedButton'
 
 const Home = () => {
 
@@ -36,7 +37,7 @@ const Home = () => {
     <>
       <div className='mt-[46px]'></div>
       <Carousel type={'main'} />
-      <section className='slider-category rounded-md bg-white m-5 pb-11'>
+      <section className='slider-category rounded-md bg-white mt-5 mb-20 pb-11'>
         {
           loading ? (
             <div className='flex items-center justify-center min-h-[120px]'>
@@ -60,7 +61,7 @@ const Home = () => {
           </div>
         ) : (
           categories.map(cat => (
-            <section className='categories mt-20' id={cat.slug} key={cat.id}>
+            <section className='categories mb-20' id={cat.slug} key={cat.id}>
               <h1 className='font-bold text-2xl pl-3'>{cat.name}</h1>
               <div className='products flex flex-wrap'>
                 <Products id={cat.id} handleClick={quickView} />
@@ -72,6 +73,7 @@ const Home = () => {
       {
         openModals && ( <QuickView product={openModals} closeModals={closeModals} /> )
       }
+      <FixedButton />
     </>
   )
 }
