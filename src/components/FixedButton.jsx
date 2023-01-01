@@ -1,15 +1,16 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { NavLink } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 const FixedButton = () => {
 
   const {cart, total} = useSelector(store => store.cart)
+  const windowSize = useRef([window.innerWidth, window.innerHeight])
 
   return (
     <div className='fixed z-10 bottom-0 w-full bg-white p-4'>
       {
-        cart && cart.length > 0 ? (
+        cart && cart.length > 0 && windowSize.current[0] < 768 ? (
           <NavLink to={'/pedido'}>
             <ul className='flex justify-between items-center px-5 rounded-full py-3 bg-green-500 text-white'>
               <li className='min-w-[60px]'>

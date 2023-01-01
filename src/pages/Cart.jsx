@@ -40,9 +40,9 @@ const Cart = () => {
             }
           </article>
           <article>
-            <div className='border p-3 rounded mt-10'>
+            <div className='border border-slate-300 p-3 rounded mt-10'>
               <h2 className='text-lg font-bold mb-5 text-center'>Total del pedido</h2>
-              <ul className='flex justify-between py-3 border-b'>
+              <ul className='flex justify-between py-3 border-b border-slate-300'>
                 <li>Delivery:</li>
                 <li>$ 0</li>
               </ul>
@@ -58,7 +58,7 @@ const Cart = () => {
         </>
         ) : (
           <article>
-            <div className='border p-3 rounded mt-10'>
+            <div className='border border-slate-300 p-3 rounded mt-10'>
               <h2 className='text-lg font-bold text-center'>Carrito Vacio</h2>
               <p className='text-center py-3 mb-5'>
                 Agregá productos a tu pedido
