@@ -35,7 +35,7 @@ export const addToCart = ( item, quantity ) => async ( dispatch, getState ) => {
     id: item.id,
     name: item.name,
     price: item.price,
-    photo: item.images[0].src,
+    photo: `http://localhost:1337${item.photo.data.attributes.url}`,
     sale_price: item.sale_price,
     quantity: quantity,
     subtotal: item.price * quantity,

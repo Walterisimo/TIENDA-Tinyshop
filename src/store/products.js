@@ -35,18 +35,18 @@ export const getProductsAction = ( ) => async ( dispatch ) => {
   dispatch({
     type: LOADING_CATEGORIES
   })
+  const token = 'a298cb46143a50a5285911b61ac5dc1f613081f40eee7dbf6f5a001ee736556a5790c1eb0437290c627daad11eb6386cdbeb3926c2a473bcf2bd06c5e718004e9d5db08bac625c2b392f30e59a9e0cb2de3209df1c9de61d352f17d48584185baf83c304b6a829b7b20b8fe76918a7158288692b4ed18fc53fc097ddc9c50c48'
   const headers = {
-    auth: {
-      username: 'ck_d53e87e3529e6bf1c4fc479bfd839e10bb609579',
-      password: 'cs_b553c25f982fddffcf6c139b9eab112bfdb8ae4e'
-    }
+    'Accept': 'application/json',
+    'Authorization': `Bearer ${token}`
   }
   try {
-    const categories = await axios.get('https://demo.tinyshop.com.ar/wp-json/wc/v3/products/categories?per_page=100', headers )
+    const categories = await axios.get('http://localhost:1337/api/categories?populate=deep,10', { headers } )
 
-    if (categories) {
+    
+    if (categories.status === 200) {
 
-      const shortCategories = [...categories.data].sort((a, b) => a.menu_order - b.menu_order)
+      const shortCategories = [...categories.data.data].sort((a, b) => a.menu_order - b.menu_order)
 
       dispatch({
         type: SUCCESS_CATEGORIES,
