@@ -61,14 +61,10 @@ const Home = () => {
           </div>
         ) : (
           categories.map(cat => (
-            <section className='categories mb-20' id={cat.id} key={cat.id}>
-              <h1 className='font-bold text-2xl pl-3'>{cat.attributes.name}</h1>
+            <section className='categories mb-20' id={cat.slug} key={cat.id}>
+              <h1 className='font-bold text-2xl pl-3'>{cat.name}</h1>
               <div className='products flex flex-wrap'>
-                {
-                  cat.attributes.products.data.map(product => (
-                    <Products key={product.id} product={{...product.attributes, id: product.id}} handleClick={quickView} />
-                  ))
-                }
+                <Products key={cat.id} id={cat.id} handleClick={quickView} />
               </div>
             </section>
           ))

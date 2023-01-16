@@ -16,10 +16,10 @@ const Cart = () => {
   const sendMessage = () => {
     let pedido = ``
     const recorrerPedidos = cart.map(item => (
-      pedido += `*${item.name}*%0ACantidad%3A%20*${item.quantity}*%0APrecio%3A%20%24%20*${item.price.toLocaleString('es-AR')}*%0ASubtotal%3A%20%24%20*${item.subtotal.toLocaleString('es-AR')}*%0A%0A`
+      pedido += `*${item.title}*%0ACantidad%3A%20*${item.quantity}*%0APrecio%3A%20%24%20*${item.price.toLocaleString('es-AR')}*%0ASubtotal%3A%20%24%20*${item.subtotal.toLocaleString('es-AR')}*%0A%0A`
     ))
     console.log(recorrerPedidos)
-    const message = `https://api.whatsapp.com/send?phone=541171129392&text=Hola%2C%20quiero%20hacer%20un%20pedido%3A%20%0A%0A${pedido}%0A%0A*Total%3A%20%24${total.toLocaleString('es-AR')}*%0AGracias`
+    const message = `https://api.whatsapp.com/send?phone=541132805895&text=Hola%2C%20quiero%20hacer%20un%20pedido%3A%20%0A%0A${pedido}%0A%0A*Total%3A%20%24${total.toLocaleString('es-AR')}*%0AGracias`
     window.open(message, '_blank')
   }
 
@@ -43,8 +43,9 @@ const Cart = () => {
             <div className='border border-slate-300 p-3 rounded mt-10'>
               <h2 className='text-lg font-bold mb-5 text-center'>Total del pedido</h2>
               <ul className='flex justify-between py-3 border-b border-slate-300'>
-                <li>Delivery:</li>
-                <li>$ 0</li>
+                <li>Take Away:</li>
+                {/* <li>$ 0</li> */}
+                <li>Gratis</li>
               </ul>
               <ul className='flex justify-between py-3 mb-5'>
                 <li>Total:</li>

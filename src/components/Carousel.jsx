@@ -67,9 +67,9 @@ const Carousel = ( { type, array, action } ) => {
         {
           array.map(category => (
             <div className='mt-3 text-center cursor-pointer' key={category.id} onClick={() => action(category.slug)}>
-              { category.image &&
+              { category.photo &&
                 (
-                  <img src={category.image.src} className='w-[75px] md:w-[90px] mx-auto mb-2' alt={category.name} />
+                  <img src={`http://localhost:1337${category.acf.image.url}`} className='w-[75px] md:w-[90px] mx-auto mb-2' alt={category.name} />
                 )
               }
               <h3 className='text-md font-bold mb-2'>{category.name}</h3>

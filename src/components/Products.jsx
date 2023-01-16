@@ -1,23 +1,37 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 
-const Products = ({ product, handleClick }) => {
+const Products = ({ id, handleClick }) => {
+
+  const [ products, setProducts ] = useState([])
+
+  useEffect(() => {
+    const getProducts = async () => {
+      const response = await axios.get(`https://tinyshop.com.ar/wp-json/api/v1/products?category=${id}`)
+      setProducts(response.data)
+    }
+
+    getProducts()
+  }, [setProducts, id])
+
 
   return (
     <>
       {
-        product ? (
-          <div className='products__items m-2 mx-3 flex rounded bg-white overflow-hidden w-full'>
+        products.length > 0 ? (
+          products.map(product => (
+          <div className='products__items m-2 mx-3 flex rounded bg-white overflow-hidden w-full' key={product.id}>
             <div className='products__items--image m-auto'>
               <img
-                src={`http://localhost:1337${product.photo.data.attributes.url}`}
+                src={product.photo.url}
                 className='object-cover object-center block h-full w-full'
-                alt='Papas fritas'
+                alt={product.title}
               />
             </div>
             <div className='products__items--content px-2 py-3 relative flex flex-col'>
-              <h3 className='products__items--title font-bold text-md mb-1 leading-5'>{product.name}</h3>
+              <h3 className='products__items--title font-bold text-md mb-1 leading-5'>{product.title}</h3>
               <div className='products__items--description font-light text-sm leading-4 mb-2 text-slate-500' dangerouslySetInnerHTML={{ __html: product.description }}></div>
-              <span className='products__items--price font-semibold text-indigo-600 mt-auto'>$ {product.price}</span>
+              <span className='products__items--price font-semibold text-indigo-600 mt-auto'>$ {product.price.toLocaleString('es-AR')}</span>
               <span
                 className='rounded-full bg-indigo-600 w-[35px] h-[35px] absolute right-3 bottom-2 items-center justify-center flex text-white font-normal text-2xl cursor-pointer hover:bg-indigo-800'
                 onClick={() => handleClick(product)}
@@ -26,6 +40,7 @@ const Products = ({ product, handleClick }) => {
               </span>
             </div>
           </div>
+          ))
         ) : (
           <div className='flex items-center justify-center min-h-[120px] w-full'>
             <svg className='animate-spin -ml-1 mr-3 h-5 w-5 text-white' xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

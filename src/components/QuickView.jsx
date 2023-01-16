@@ -34,11 +34,11 @@ const QuickView = ( { product, closeModals } ) => {
     <>
       <div className='overlay fixed top-0 left-0 z-20 bg-gray-800/95 w-full h-full flex items-center justify-center '>
         <div className='bg-white rounded m-5 w-full overflow-hidden relative'>
-          <img src={`http://localhost:1337${product.photo.data.attributes.url}`} className='w-full h-[280px] object-cover object-center block mb-5' alt={product.name}/>
+          <img src={product.photo.url} className='w-full h-[280px] object-cover object-center block mb-5' alt={product.title}/>
           <div className='px-4 pb-7'>
-            <h2 className='text-2xl font-bold mb-3'>{product.name}</h2>
+            <h2 className='text-2xl font-bold mb-3'>{product.title}</h2>
             <div className='font-light text-md leading-6 mb-5 text-slate-500' dangerouslySetInnerHTML={{ __html: product.description }}></div>
-            <span className='font-bold text-indigo-600 text-lg'>$ {product.price}</span>
+            <span className='font-bold text-indigo-600 text-lg'>$ {product.price.toLocaleString('es-AR')}</span>
             <ul className='pt-4 flex justify-between items-center'>
               <li className='quantity'>
                 <span className='cursor-pointer border border-slate-300 px-2 py-2' onClick={lessQuantity}>-</span>
