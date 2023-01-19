@@ -1,13 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
-import { updateItem } from '../store/cart'
+import { updateItem, getShippingMethods } from '../store/cart'
 import Item from '../components/Item'
 
 const Cart = () => {
 
   const dispatch = useDispatch()
-  const {cart, total} = useSelector(store => store.cart)
+  const {cart, total, shipping } = useSelector(store => store.cart)
   
   const updateCart = ( item, subtotal, quantity ) => {
     dispatch(updateItem(item, subtotal, quantity))
@@ -23,6 +23,10 @@ const Cart = () => {
     window.open(message, '_blank')
   }
 
+  useEffect(() => {
+    dispatch(getShippingMethods())
+  }, [dispatch])
+
   return (
     <section className='mt-[60px] px-3'>
       <ul className='flex pt-6 text-indigo-900'>
@@ -36,6 +40,15 @@ const Cart = () => {
             {
               cart && cart.map(item => (
                 <Item key={item.id} product={item} action={updateCart}/>
+              ))
+            }
+          </article>
+          <article className='row'>
+            {
+              shipping && shipping.map(item => (
+                <li className='flex' key={item.id}>
+                  <input type="radio"/> {item.title} - {item.price}
+                </li>
               ))
             }
           </article>
