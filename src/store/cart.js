@@ -137,8 +137,6 @@ export const addShippingCost = ( shipping ) => async ( dispatch, getState ) => {
     type: LOADING_CART
   })
 
-  console.log(parseInt(getState().cart.shippingMethod.price))
-
   let total = getState().cart.total - parseInt(getState().cart.shippingMethod.price)
   total = total + parseInt(shipping.price)
 

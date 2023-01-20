@@ -8,7 +8,11 @@ const Products = ({ id, handleClick }) => {
   useEffect(() => {
     const getProducts = async () => {
       const response = await axios.get(`https://tinyshop.com.ar/wp-json/api/v1/products?category=${id}`)
-      setProducts(response.data)
+      if (response.status === 200 ){
+        setProducts(response.data)
+      } else {
+        setProducts(null)
+      }
     }
 
     getProducts()

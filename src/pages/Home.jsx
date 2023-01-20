@@ -37,7 +37,7 @@ const Home = () => {
     <>
       <div className='mt-[46px]'></div>
       <Carousel type={'main'} />
-      <section className='slider-category rounded-md bg-white mt-5 mb-20 pb-11'>
+      <section className='slider-category mt-5 mb-20 pl-3'>
         {
           loading ? (
             <div className='flex items-center justify-center min-h-[120px]'>

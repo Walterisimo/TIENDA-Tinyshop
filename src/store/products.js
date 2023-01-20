@@ -40,7 +40,8 @@ export const getProductsAction = ( ) => async ( dispatch ) => {
 
     if (response.status === 200) {
 
-      const categories = [...response.data].sort((a, b) => a.acf.menu_order - b.acf.menu_order)
+      const orderedCategories = [...response.data].sort((a, b) => a.acf.menu_order - b.acf.menu_order)
+      const categories = orderedCategories.filter(cat => cat.acf.active === true)
 
       dispatch({
         type: SUCCESS_CATEGORIES,

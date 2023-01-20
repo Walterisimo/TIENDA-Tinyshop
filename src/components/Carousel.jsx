@@ -53,12 +53,12 @@ const Carousel = ( { type, array, action } ) => {
     )
   } else if ( array ){
     const settings = {
-      dots: true,
+      dots: false,
       arrows: false,
       infinite: true,
       speed: 500,
       slidesToShow: 3,
-      slidesToScroll: 3,
+      slidesToScroll: 1,
       autoplay: false,
       autoplaySpeed: 4000
     }
@@ -66,13 +66,13 @@ const Carousel = ( { type, array, action } ) => {
       <Slider {...settings}>
         {
           array.map(category => (
-            <div className='mt-3 text-center cursor-pointer' key={category.id} onClick={() => action(category.slug)}>
+            <div className='mt-3 text-center cursor-pointer pt-2 pr-2' key={category.id} onClick={() => action(category.slug)}>
               { category.photo &&
                 (
                   <img src={`http://localhost:1337${category.acf.image.url}`} className='w-[75px] md:w-[90px] mx-auto mb-2' alt={category.name} />
                 )
               }
-              <h3 className='text-md font-bold mb-2'>{category.name}</h3>
+              <h3 className='text-md font-normal mb-2 bg-white rounded-full border border-slate-200'>{category.name}</h3>
             </div>
           ))
         }
