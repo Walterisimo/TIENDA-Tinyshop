@@ -1,14 +1,16 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
-import { updateItem, getShippingMethods } from '../store/cart'
+import { updateItem, getShippingMethods, addShippingCost } from '../store/cart'
 import Item from '../components/Item'
 
 const Cart = () => {
 
   const dispatch = useDispatch()
-  const {cart, total, shipping } = useSelector(store => store.cart)
-  
+  const {cart, total, shipping, shippingMethod } = useSelector(store => store.cart)
+
+  const [ selected, setSelected ] = useState(shippingMethod)
+
   const updateCart = ( item, subtotal, quantity ) => {
     dispatch(updateItem(item, subtotal, quantity))
   }
@@ -23,6 +25,11 @@ const Cart = () => {
     window.open(message, '_blank')
   }
 
+  const handleRadio = (shippingSelected) => {
+    setSelected(shippingSelected)
+    dispatch(addShippingCost(shippingSelected))
+  }
+  
   useEffect(() => {
     dispatch(getShippingMethods())
   }, [dispatch])
@@ -44,10 +51,26 @@ const Cart = () => {
             }
           </article>
           <article className='row'>
+            <p className='mt-10 mb-2 font-medium'>Envío</p>
             {
               shipping && shipping.map(item => (
-                <li className='flex' key={item.id}>
-                  <input type="radio"/> {item.title} - {item.price}
+                <li className='flex mb-1' key={item.id}>
+                  <input
+                    type="radio"
+                    id={item.slug}
+                    name='shipping'
+                    className='mr-2'
+                    onChange={() => handleRadio(item)}
+                    checked={selected.slug === item.slug}
+                  />
+                  <label htmlFor={item.slug}>{item.title}</label>
+                  {
+                    parseInt(item.price) === 0 ? (
+                      <p className='ml-auto text-right font-medium'>Gratis</p>
+                    ) : (
+                      <p className='ml-auto text-right font-medium'>$ {item.price}</p>
+                    )
+                  }
                 </li>
               ))
             }
@@ -56,9 +79,16 @@ const Cart = () => {
             <div className='border border-slate-300 p-3 rounded mt-10'>
               <h2 className='text-lg font-bold mb-5 text-center'>Total del pedido</h2>
               <ul className='flex justify-between py-3 border-b border-slate-300'>
-                <li>Take Away:</li>
-                {/* <li>$ 0</li> */}
-                <li>Gratis</li>
+                <li>{shippingMethod.title}:</li>
+                <li>
+                  {
+                    parseInt(shippingMethod.price) === 0 ? (
+                      <>Gratis</>
+                    ) : (
+                      <>$ {shippingMethod.price}</>
+                    )
+                  }
+                </li>
               </ul>
               <ul className='flex justify-between py-3 mb-5'>
                 <li>Total:</li>

@@ -5,7 +5,7 @@ const initData = {
   loadingCart: false,
   cart: [],
   shipping: [],
-  shippingCost: 0,
+  shippingMethod: {},
   total: 0
 }
 
@@ -26,9 +26,9 @@ export default function cartReducer (state = initData, action ) {
     case UPDATE_ITEM_CART:
       return {...state, loadingCart: false, cart: action.payload.cart, total: action.payload.total}
     case GET_SHIPPING_METHODS:
-      return {...state, loadingCart: false, shipping: action.payload.shipping}
+      return {...state, loadingCart: false, shipping: action.payload.shipping, shippingMethod: action.payload.shippingMethod}
     case ADD_SHIPPING_COST:
-      return {...state, loadingCart: false, shipping: action.payload.shippingCost, total: action.payload.total}
+      return {...state, loadingCart: false, shippingMethod: action.payload.shippingMethod, total: action.payload.total}
     default:
       return {...state}
   }
@@ -72,7 +72,6 @@ export const updateItem = ( item, subtotal, quantity ) => async ( dispatch, getS
     type: LOADING_CART
   })
 
-  console.log(subtotal)
   const products = getState().cart.cart.filter(product => product.id !== item.id)
   let product = {}
   let carrito = []
@@ -117,11 +116,14 @@ export const getShippingMethods = ( ) => async ( dispatch ) => {
   try {
     const response = await axios.get('https://tinyshop.com.ar/wp-json/api/v1/shipping' )
     if (response.status === 200) {
-      console.log(response.data)
+
+      const shipping = [...response.data].sort((a, b) => a.price - b.price)
+
       dispatch({
         type: GET_SHIPPING_METHODS,
         payload: {
-          shipping: response.data
+          shipping: shipping,
+          shippingMethod: shipping[0]
         }
       })
     }
@@ -130,44 +132,21 @@ export const getShippingMethods = ( ) => async ( dispatch ) => {
   }
 }
 
-// export const addShippingCost = ( type ) => async ( dispatch, getState ) => {
-//   dispatch({
-//     type: LOADING_CART
-//   })
+export const addShippingCost = ( shipping ) => async ( dispatch, getState ) => {
+  dispatch({
+    type: LOADING_CART
+  })
 
-//   console.log(subtotal)
-//   const products = getState().cart.cart.filter(product => product.id !== item.id)
-//   let product = {}
-//   let carrito = []
-//   let total = getState().cart.total - subtotal
-//   // console.log(total)
+  console.log(parseInt(getState().cart.shippingMethod.price))
 
-//   if (quantity) {
-//     product = {
-//       id: item.id,
-//       title: item.title,
-//       price: item.price,
-//       photo: item.photo,
-//       sale_price: item.sale_price,
-//       quantity: quantity,
-//       subtotal: item.price * quantity,
-//       order: item.order
-//     }
-//     carrito = [...products, product]
-//     total = total + product.subtotal
-//   } else {
-//     carrito = products
-//   }
+  let total = getState().cart.total - parseInt(getState().cart.shippingMethod.price)
+  total = total + parseInt(shipping.price)
 
-//   const shorted = [...carrito].sort((a, b) => {
-//     return b.order - a.order;
-//   })
-
-//   dispatch({
-//     type: UPDATE_ITEM_CART,
-//     payload: {
-//       cart: shorted,
-//       total: total
-//     }
-//   })
-// }
+  dispatch({
+    type: ADD_SHIPPING_COST,
+    payload: {
+      shippingMethod: shipping,
+      total: total
+    }
+  })
+}
