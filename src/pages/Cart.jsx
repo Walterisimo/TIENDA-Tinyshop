@@ -10,6 +10,8 @@ const Cart = () => {
   const {cart, total, shipping, shippingMethod } = useSelector(store => store.cart)
 
   const [ selected, setSelected ] = useState(shippingMethod)
+  const [ address, setAddress ] = useState(null)
+  const [ note, setNote ] = useState(null)
 
   const updateCart = ( item, subtotal, quantity ) => {
     dispatch(updateItem(item, subtotal, quantity))
@@ -18,10 +20,10 @@ const Cart = () => {
   const sendMessage = () => {
     let pedido = ``
     const recorrerPedidos = cart.map(item => (
-      pedido += `*${item.title}*%0ACantidad%3A%20*${item.quantity}*%0APrecio%3A%20%24%20*${item.price.toLocaleString('es-AR')}*%0ASubtotal%3A%20%24%20*${item.subtotal.toLocaleString('es-AR')}*%0A%0A`
+      pedido += `*${item.title}*%0ACantidad%3A%20*${item.quantity}*%0APrecio%3A%20%24%20*${item.price.toLocaleString('es-AR')}*%0ASubtotal%3A%20%24%20*${item.subtotal.toLocaleString('es-AR')}*%0A`
     ))
     console.log(recorrerPedidos)
-    const message = `https://api.whatsapp.com/send?phone=541132805895&text=Hola%2C%20quiero%20hacer%20un%20pedido%3A%20%0A%0A${pedido}%0A%0A*Total%3A%20%24${total.toLocaleString('es-AR')}*%0AGracias`
+    const message = `https://api.whatsapp.com/send?phone=541132805895&text=Hola%2C%20quiero%20hacer%20un%20pedido%3A%20%0A%0A${pedido}${selected ? `%0A%0A*Método%20de%20Envío*%3A%0A${selected.title}%20-%20*${selected.price}*` : ''}${address ? `%0A%0A*Dirección*%3A%0A${address}` : ''}${note ? `%0A%0A*Notas*%3A%0A${note}` : ''}%0A%0A*Total%3A%20%24${total.toLocaleString('es-AR')}*%0AGracias`
     window.open(message, '_blank')
   }
 
@@ -60,8 +62,9 @@ const Cart = () => {
                     id={item.slug}
                     name='shipping'
                     className='mr-2'
-                    onChange={() => handleRadio(item)}
+                    value={item.slug}
                     checked={selected.slug === item.slug}
+                    onChange={() => handleRadio(item)}
                   />
                   <label htmlFor={item.slug}>{item.title}</label>
                   {
@@ -75,12 +78,40 @@ const Cart = () => {
               ))
             }
           </article>
-          <article>
+          <article className='pt-6'>
+            {
+              selected.input_address && (
+                <div className='mb-6'>
+                  <label htmlFor='emaddressail' className='w-full font-medium'>Dirección</label>
+                  <input 
+                    className='w-full p-3 border border-slate-300 rounded'
+                    style={{backgroundColor: '#f9f9f9'}}
+                    type='text'
+                    name='address'
+                    id='address'
+                    onChange={(e) => setAddress(e.target.value)}
+                  />
+                </div>
+              )
+            }
+            <div className='mb-6'>
+              <label htmlFor='note' className='w-full font-medium'>Notas</label>
+              <textarea 
+                className='w-full p-3 border border-slate-300 rounded'
+                style={{backgroundColor: '#f9f9f9'}}
+                name='note'
+                id='note'
+                rows='3'
+                onChange={(e) => setNote(e.target.value)}
+              ></textarea>
+            </div>
+          </article>
+          <article className='pb-16'>
             <div className='border border-slate-300 p-3 rounded mt-10'>
               <h2 className='text-lg font-bold mb-5 text-center'>Total del pedido</h2>
               <ul className='flex justify-between py-3 border-b border-slate-300'>
                 <li>{shippingMethod.title}:</li>
-                <li>
+                <li className='font-semibold'>
                   {
                     parseInt(shippingMethod.price) === 0 ? (
                       <>Gratis</>
@@ -92,7 +123,7 @@ const Cart = () => {
               </ul>
               <ul className='flex justify-between py-3 mb-5'>
                 <li>Total:</li>
-                <li>$ {total && total.toLocaleString('es-AR')}</li>
+                <li className='font-semibold'>$ {total && total.toLocaleString('es-AR')}</li>
               </ul>
               <button className='flex justify-center w-full bg-green-500 text-white py-3' onClick={() => sendMessage()}>
                 PEDIR POR WHATSAPP

@@ -5,6 +5,7 @@ import { getProductsAction } from '../store/products'
 import Products from '../components/Products'
 import QuickView from '../components/QuickView'
 import FixedButton from '../components/FixedButton'
+import Alert from '../components/Alert'
 
 const Home = () => {
 
@@ -74,6 +75,7 @@ const Home = () => {
         openModals && ( <QuickView product={openModals} closeModals={closeModals} /> )
       }
       <FixedButton />
+      <Alert />
     </>
   )
 }

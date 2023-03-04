@@ -3,7 +3,7 @@
 body{
   font-family: 'Roboto';
   background-color: #f8f8f8;
-  overflow: auto;
+  overflow: auto !important;
 }
 
 .slick-dots{
@@ -39,5 +39,18 @@ body{
 .slider-category{
   .slick-dots{
     bottom: -25px;
+  }
+}
+
+.alert--qr{
+  display: none;
+}
+@media (min-width: 768px) {
+  body{
+    overflow: hidden;
+  }
+  .alert--qr{
+    display: flex;
+    background-color: #f8f8f8;
   }
 }
