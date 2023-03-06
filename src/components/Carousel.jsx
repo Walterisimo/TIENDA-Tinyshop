@@ -66,10 +66,10 @@ const Carousel = ( { type, array, action } ) => {
       <Slider {...settings}>
         {
           array.map(category => (
-            <div className='mt-3 text-center cursor-pointer pt-2 pr-2' key={category.id} onClick={() => action(category.slug)}>
+            <div className='mt-3 text-center cursor-pointer pt-2 pr-2' key={category.slug} onClick={() => action(category.slug)}>
               { category.photo &&
                 (
-                  <img src={`http://localhost:1337${category.acf.image.url}`} className='w-[75px] md:w-[90px] mx-auto mb-2' alt={category.name} />
+                  <img src={`http://localhost:1337${category.photo}`} className='w-[75px] md:w-[90px] mx-auto mb-2' alt={category.name} />
                 )
               }
               <h3 className='text-md font-normal mb-2 bg-white rounded-full border border-slate-200'>{category.name}</h3>

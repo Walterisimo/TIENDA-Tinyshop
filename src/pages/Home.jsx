@@ -6,6 +6,7 @@ import Products from '../components/Products'
 import QuickView from '../components/QuickView'
 import FixedButton from '../components/FixedButton'
 import Alert from '../components/Alert'
+import Navbar from '../components/Navbar'
 
 const Home = () => {
 
@@ -15,6 +16,15 @@ const Home = () => {
   const [ openModals, setOpenModals ] = useState(null)
 
   useEffect(() => {
+    // const guid = () => {
+    //   let s4 = () => {
+    //       return Math.floor((1 + Math.random()) * 0x10000)
+    //           .toString(16)
+    //           .substring(1);
+    //   }
+    //   return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+    // }
+    // console.log(guid())
     dispatch(getProductsAction())
   }, [dispatch])
 
@@ -36,6 +46,7 @@ const Home = () => {
 
   return (
     <>
+      <Navbar />
       <div className='mt-[46px]'></div>
       <Carousel type={'main'} />
       <section className='slider-category mt-5 mb-20 pl-3'>
@@ -62,10 +73,14 @@ const Home = () => {
           </div>
         ) : (
           categories.map(cat => (
-            <section className='categories mb-20' id={cat.slug} key={cat.id}>
+            <section className='categories mb-20' id={cat.slug} key={cat.slug}>
               <h1 className='font-bold text-2xl pl-3'>{cat.name}</h1>
               <div className='products flex flex-wrap'>
-                <Products key={cat.id} id={cat.id} handleClick={quickView} />
+                <Products
+                  key={cat.slug}
+                  products={cat.products}
+                  handleClick={quickView}
+                />
               </div>
             </section>
           ))

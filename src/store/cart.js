@@ -42,9 +42,9 @@ export const addToCart = ( item, quantity ) => async ( dispatch, getState ) => {
 
   const product = {
     id: item.id,
-    title: item.title,
+    name: item.name,
     price: item.price,
-    photo: item.photo.url,
+    photo: item.photo,
     sale_price: item.sale_price,
     quantity: quantity,
     subtotal: item.price * quantity,
@@ -81,7 +81,7 @@ export const updateItem = ( item, subtotal, quantity ) => async ( dispatch, getS
   if (quantity) {
     product = {
       id: item.id,
-      title: item.title,
+      name: item.name,
       price: item.price,
       photo: item.photo,
       sale_price: item.sale_price,

@@ -1,24 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+import React from 'react'
 
-const Products = ({ id, handleClick }) => {
-
-  const [ products, setProducts ] = useState([])
-
-  useEffect(() => {
-    const getProducts = async () => {
-      const response = await axios.get(`https://tinyshop.com.ar/wp-json/api/v1/products?category=${id}`)
-      if (response.status === 200 ){
-        setProducts(response.data)
-      } else {
-        setProducts(null)
-      }
-    }
-
-    getProducts()
-  }, [setProducts, id])
-
-
+const Products = ({ products, handleClick }) => {
   return (
     <>
       {
@@ -27,13 +9,13 @@ const Products = ({ id, handleClick }) => {
           <div className='products__items m-2 mx-3 flex rounded bg-white overflow-hidden w-full' key={product.id}>
             <div className='products__items--image m-auto'>
               <img
-                src={product.photo.url}
+                src={product.photo}
                 className='object-cover object-center block h-full w-full'
                 alt={product.title}
               />
             </div>
             <div className='products__items--content px-2 py-3 relative flex flex-col'>
-              <h3 className='products__items--title font-bold text-md mb-1 leading-5'>{product.title}</h3>
+              <h3 className='products__items--title font-bold text-md mb-1 leading-5'>{product.name}</h3>
               <div className='products__items--description font-light text-sm leading-4 mb-2 text-slate-500' dangerouslySetInnerHTML={{ __html: product.description }}></div>
               <span className='products__items--price font-semibold text-indigo-600 mt-auto'>$ {product.price.toLocaleString('es-AR')}</span>
               <span

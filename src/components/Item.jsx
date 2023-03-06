@@ -32,14 +32,14 @@ const Item = ( { product, action } ) => {
             <img
               src={product.photo}
               className='object-cover object-center block h-full w-full'
-              alt={product.title}
+              alt={product.name}
             />
           </div>
           <div className='cart__items--content px-2 py-3 relative flex flex-col justify-between'>
             <span className='absolute top-2 right-3 text-red-600 cursor-pointer' onClick={() => setOpenModals(true)}>
               <i className='far fa-trash-alt'></i>
             </span>
-            <h3 className='cart__items--title font-medium text-md mb-1 leading-5 text-left'>{product.title}</h3>
+            <h3 className='cart__items--title font-medium text-md mb-1 leading-5 text-left'>{product.name}</h3>
             <div>
               <ul className='pt-2 flex justify-between items-center'>
                 <li>
@@ -65,7 +65,7 @@ const Item = ( { product, action } ) => {
                 </div>
                 <div className='ml-4 text-left'>
                   <h3 className='mt-1 mb-2 font-bold text-lg'>Eliminar producto</h3>
-                  <p className='text-slate-500 font-light leading-5'>Vas a eliminar el producto: "<span className='font-medium'>{product.title}</span>" de tu pedido.<br />Por favor confirmá para continuar.</p>
+                  <p className='text-slate-500 font-light leading-5'>Vas a eliminar el producto: "<span className='font-medium'>{product.name}</span>" de tu pedido.<br />Por favor confirmá para continuar.</p>
                   <ul className='flex justify-end mt-4'>
                     <li className='border border-solid border-slate-300 rounded px-3 py-1 mr-4 cursor-pointer' onClick={() => setOpenModals(false)}>
                       Cancelar

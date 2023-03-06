@@ -1,4 +1,6 @@
-import axios from 'axios'
+// import axios from 'axios'
+import { collection, addDoc, doc, getDoc, setDoc } from 'firebase/firestore'
+import { db } from '../app/firebaseConfig'
 
 // Data Initial
 const initData = {
@@ -36,27 +38,28 @@ export const getProductsAction = ( ) => async ( dispatch ) => {
     type: LOADING_CATEGORIES
   })
   try {
-    const response = await axios.get('https://tinyshop.com.ar/wp-json/wp/v2/categories' )
+    const docRef = doc(db, 'companies', 'o6xpgccuz77tTKwwXSEm');
+    const docSnap = await getDoc(docRef);
 
-    if (response.status === 200) {
+    if (docSnap.exists()) {
+      console.log('Document data:', docSnap.data().categories)
 
-      const orderedCategories = [...response.data].sort((a, b) => a.acf.menu_order - b.acf.menu_order)
-      const categories = orderedCategories.filter(cat => cat.acf.active === true)
-
-      dispatch({
-        type: SUCCESS_CATEGORIES,
-        payload: {
-          categories: categories
-        }
-      })
-
+        const orderedCategories = [...docSnap.data().categories].sort((a, b) => a.menu_order - b.menu_order)
+        const categories = orderedCategories.filter(cat => cat.active === true)
+  
+        dispatch({
+          type: SUCCESS_CATEGORIES,
+          payload: {
+            categories: categories
+          }
+        })
     } else {
       dispatch({
         type: ERROR_CATEGORIES,
         payload: {
           alert: {
             type: 'error',
-            message: 'Error'
+            message: 'No such document!'
           }
         }
       })
