@@ -48,7 +48,7 @@ export const loginUserAction = ( email, pass ) => async (dispatch) => {
   try {
     const result = await signInWithEmailAndPassword(auth, email, pass)
 
-    console.log(email, pass)
+    // console.log(email, pass)
 
     // if (result.user.uid && result.user.emailVerified) {
     if (result.user.uid) {
@@ -89,7 +89,7 @@ export const loginUserAction = ( email, pass ) => async (dispatch) => {
 export const getUserAction = () => (dispatch) => {
   onAuthStateChanged( auth, (user) => {
     if(user) {
-      console.log(user)
+      // console.log(user)
       dispatch({
         type: SUCCESSFULL_USER,
         payload: {

@@ -39,6 +39,11 @@ const Navbar = () => {
                 <NavLink to="/dashboard/orders" activeclassname="active">
                   <li className='cursor-pointer py-3 px-5 border-b border-solid border-slate-200 hover:bg-indigo-50 lg:py-5 lg:border-b-transparent'>Órdenes</li>
                 </NavLink>
+                <NavLink to="/dashboard/categories" activeclassname="active">
+                  <li className='cursor-pointer py-3 px-5 border-b border-solid border-slate-200 hover:bg-indigo-50 lg:py-5 lg:border-b-transparent'>
+                    Categorías
+                  </li>
+                </NavLink>
                 <NavLink to="/dashboard/products" activeclassname="active">
                   <li className='cursor-pointer py-3 px-5 border-b border-solid border-slate-200 hover:bg-indigo-50 lg:py-5 lg:border-b-transparent'>
                     Productos

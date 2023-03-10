@@ -25,6 +25,7 @@ const Home = () => {
     //   return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
     // }
     // console.log(guid())
+    // console.log(Date.now())
     dispatch(getProductsAction())
   }, [dispatch])
 
