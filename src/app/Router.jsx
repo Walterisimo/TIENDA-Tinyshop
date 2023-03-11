@@ -16,9 +16,11 @@ const Router = () => {
   const dispatch = useDispatch()
   const { active } = useSelector(store => store.auth)
 
+  
   useEffect(() => {
     dispatch(getUserAction())
   }, [dispatch])
+  
 
   const RequireAuth = () => {
     let location = useLocation()
@@ -28,7 +30,7 @@ const Router = () => {
     return <Outlet />
   }
 
-  return (
+  return active !== false ? (
     <BrowserRouter>
       <Routes>
         <Route path='/' element={ <Home /> } />
@@ -40,11 +42,12 @@ const Router = () => {
           <Route path='/dashboard/tables' element={ <Tables /> } />
           <Route path='/dashboard/products' element={ <Products /> } />
           <Route path='/dashboard/categories' element={ <Categories /> } />
-          {/* <Route path='/dashboard/account' element={ <Account /> } /> */}
         </Route>
         <Route path='*' element={ <Navigate to='/' /> } />
       </Routes>
     </BrowserRouter>
+  ) : (
+    <p>Loading...</p>
   )
 }
 

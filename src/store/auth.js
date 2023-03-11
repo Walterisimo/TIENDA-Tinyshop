@@ -87,9 +87,8 @@ export const loginUserAction = ( email, pass ) => async (dispatch) => {
 }
 
 export const getUserAction = () => (dispatch) => {
-  onAuthStateChanged( auth, (user) => {
+  const unsusbribe = onAuthStateChanged( auth, (user) => {
     if(user) {
-      // console.log(user)
       dispatch({
         type: SUCCESSFULL_USER,
         payload: {
@@ -101,13 +100,15 @@ export const getUserAction = () => (dispatch) => {
             uid: user.uid,
             email: user.email,
             // verified: user.emailVerified,
-            name: user.displayName,
+            name: user.name,
             // photo: user.photoURL
           }
         }
       })
     } 
   })
+
+  return unsusbribe()
 }
 
 export const logoutUserAction = () => (dispatch) => {
